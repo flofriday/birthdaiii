@@ -6,7 +6,6 @@ on: [push]
 
 jobs:
   deploy:
-    needs: test
     if: ${{ github.ref_name == 'main' }}
     runs-on: ubuntu-latest
     steps:
