@@ -1,7 +1,7 @@
 import { getAdminSecret } from "@/lib/config";
 import { createInvite, getAllInvites } from "@/lib/invite-service";
 
-export async function GET({params}: {params: {secret: string}}) {
+export async function GET(request: Request, {params}: {params: {secret: string}}) {
 
     if (params.secret != await getAdminSecret()) {
         return Response.json({errorMessage: "You are not the admin!"}, {status: 403})

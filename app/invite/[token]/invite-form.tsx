@@ -76,7 +76,7 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
             </h1>
 
             <div className="pb-4">
-                I'd love to invite you to my birthday party.
+                I`&apos;d love to invite you to my birthday party.
                 It will once again be a chill hang with music, some foods, drinks
                 and definitely more dancing 😉
             </div>
@@ -84,7 +84,7 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
             <Card className="mb-4">
                 <CardHeader>
                     <CardTitle>The Hard Facts</CardTitle>
-                    <CardDescription>Flo's Birthday Party 🎂</CardDescription>
+                    <CardDescription>Flo`&apos;s Birthday Party 🎂</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="pb-3">
@@ -112,8 +112,8 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
 
             {invite.accepted == AcceptState.Pending ? (
                 <div className="text-right">
-                    <Button disabled={loading} className="w-full mb-4" onClick={() => updateInvite({ ...invite, accepted: AcceptState.Accepted, plusOne: 0 })} >I'm in! 🎂 🎉</Button>
-                    <Button disabled={loading} className="w-full" variant="secondary" onClick={() => updateInvite({ ...invite, accepted: AcceptState.Declined, plusOne: 0 })} > I won't attend 😔</Button>
+                    <Button disabled={loading} className="w-full mb-4" onClick={() => updateInvite({ ...invite, accepted: AcceptState.Accepted, plusOne: 0 })} >I`&apos;m in! 🎂 🎉</Button>
+                    <Button disabled={loading} className="w-full" variant="secondary" onClick={() => updateInvite({ ...invite, accepted: AcceptState.Declined, plusOne: 0 })} > I won`&apos;t attend 😔</Button>
                 </div>
             ) : invite.accepted == AcceptState.Accepted ? (
                 <div className="pt-5 pb-2 relative">
@@ -122,7 +122,7 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
 
                     <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">Your in 🎉</h3>
                     <div className="pb-2">
-                        That's amazing, there is a WhatsApp group again: <br />
+                        That`&apos;s amazing, there is a WhatsApp group again: <br />
                     </div>
                     <div className="pb-4">
                         Do you plan on bringing a plus one and if so how
@@ -140,8 +140,8 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
                 </div>
             ) : (
                 <div className="pt-5 pb-2">
-                    <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">You won't attend 😔</h3>
-                    That's ok, some people are allergic to fun.
+                    <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">You won`&apos;t attend 😔</h3>
+                    That`&apos;s ok, some people are allergic to fun.
 
                     <div className="h-full pt-3">
                         <Button className="pl-0" variant="link" onClick={() => updateInvite({ ...invite, accepted: AcceptState.Pending, plusOne: 0 })}>What? No, I am fun!</Button>
