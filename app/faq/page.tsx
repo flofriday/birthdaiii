@@ -5,7 +5,7 @@ export default function FAQ() {
 
       <div className="pb-6">
         <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">What is this thing?</h2>
-        <p>It`&apos;s a simple website I wrote to manage the invites for my birthday party.</p>
+        <p>It&apos;s a simple website I wrote to manage the invites for my birthday party.</p>
       </div>
 
 
@@ -15,7 +15,7 @@ export default function FAQ() {
       </div>
 
       <div className="pb-6">
-        <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">Couldn`&apos;t you just have used a normal spreadsheet or not written it down at all, like the cool kids</h2>
+        <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">Couldn&apos;t you just have used a normal spreadsheet or not written it down at all, like the cool kids</h2>
         <p>Yes.</p>
       </div>
 
@@ -31,14 +31,14 @@ export default function FAQ() {
       <div className="pb-6">
         <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">Oh damn who else does stuff like that?</h2>
         <p>
-          No, it`&apos;s just me for now.
+          No, it&apos;s just me for now.
         </p>
       </div>
 
       <div className="pb-6">
         <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">Can I share my invite link?</h2>
         <p>
-          Please don`&apos;t, each invitee got their own custom invite link. If your friends didn`&apos;t get one and you want to bring them you can just add them as plus one.
+          Please don&apos;t, each invitee got their own custom invite link. If your friends didn&apos;t get one and you want to bring them you can just add them as plus one.
           <br />
           Of course you can share the location, date etc with the people you bring.
         </p>

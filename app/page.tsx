@@ -7,8 +7,8 @@ export default function Home() {
       <p className="pb-3">
         This is an over engineered birthday party management tool for my
         upcomming birthday. However,
-        it is quite private in it`&apos;s nature, so if you haven`&apos;t gotten a link to
-        an invite you won`&apos;t be able to do a lot here.
+        it is quite private in it&apos;s nature, so if you haven&apos;t gotten a link to
+        an invite you won&apos;t be able to do a lot here.
       </p>
       <p className="pb-3">
         You can still check it out on GitHub.
