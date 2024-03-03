@@ -22,5 +22,6 @@ jobs:
           systemctl --user stop birthdaiii.service
           git pull
           npm install
+          npx prisma db push
           npm run build
           systemctl --user start birthdaiii.service
