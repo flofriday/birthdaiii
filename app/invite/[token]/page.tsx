@@ -1,6 +1,7 @@
 import { getInviteByToken } from "@/lib/invite-service";
 import { notFound } from "next/navigation";
 import InviteForm from "./invite-form";
+import { getEventDetails } from "@/lib/config";
 
 export default async function Invite({ params }: { params: { token: string } }) {
 
@@ -9,8 +10,9 @@ export default async function Invite({ params }: { params: { token: string } }) 
         return notFound()
     }
 
+    let eventDetails = await getEventDetails()
 
     return (
-        <InviteForm invite={invite}></InviteForm>
+        <InviteForm invite={invite} event={eventDetails}></InviteForm>
     );
 }

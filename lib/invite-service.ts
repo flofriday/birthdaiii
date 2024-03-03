@@ -15,7 +15,7 @@ export async function getInviteByToken(token: string): Promise<Invite | null>  {
 }
 
 export async function createInvite(name: string, fullName: string): Promise<Invite> {
-    let token = randomUUID.toString()
+    let token = randomUUID().toString()
     return await prisma.invite.create({data: {name: name, fullName: fullName, token: token, accepted: AcceptState.Pending, plusOne: 0}})
 }
 

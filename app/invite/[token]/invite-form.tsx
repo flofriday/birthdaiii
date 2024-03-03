@@ -14,8 +14,9 @@ import { useState } from "react";
 import { AcceptState } from "@/lib/accept-state";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
+import { EventDetails } from "@/lib/config";
 
-export default function InviteForm({ invite: initialInvite }: { invite: Invite }) {
+export default function InviteForm({ invite: initialInvite, event }: { invite: Invite, event: EventDetails }) {
 
     let [invite, setInvite] = useState(initialInvite)
     let [newPlusOne, setNewPlusOne] = useState(initialInvite.plusOne)
@@ -81,11 +82,11 @@ export default function InviteForm({ invite: initialInvite }: { invite: Invite }
                 <CardContent>
                     <div className="pb-3">
                         <h3 className="font-bold">Date</h3>
-                        2026-01-01 20:00
+                        {event.date}
                     </div>
                     <div className="pb-3">
                         <h3 className="font-bold">Location</h3>
-                        Some Street 123/45
+                        {event.location}
                     </div>
                     <div className="">
                         <h3 className="font-bold">Drinks</h3>
@@ -112,9 +113,8 @@ export default function InviteForm({ invite: initialInvite }: { invite: Invite }
                     </div>
 
                     <div className="flex space-x-4">
-                        <Input type="number" placeholder="" defaultValue={invite.plusOne} className="max-w-64" value={newPlusOne} onChange={(e) => setNewPlusOne(e.target.valueAsNumber)} />
-                        {/* FIXME: Disable flashing when website is fast */}
-                        <Button disabled={loading} onClick={() => updateInvite({ ...invite, plusOne: newPlusOne })}>Update</Button>
+                        <Input type="number" placeholder="" className="max-w-64" value={newPlusOne} onChange={(e) => setNewPlusOne(e.target.valueAsNumber)} />
+                        <Button disabled={loading || newPlusOne == invite.plusOne} onClick={() => updateInvite({ ...invite, plusOne: newPlusOne })}>Update</Button>
                     </div>
 
                     <div className="h-full pt-3">

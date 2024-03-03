@@ -43,9 +43,6 @@ export default function FAQ() {
           Of course you can share the location, date etc with the people you bring.
         </p>
       </div>
-
-
-
     </main>
   );
 }

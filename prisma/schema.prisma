@@ -10,16 +10,17 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "file:./birthdaiii.db"
+  url      = "file:../birthdaiii.db"
 }
 
 model Invite {
-  id       Int    @id @default(autoincrement())
-  name     String
-  fullName String @unique
-  token    String @unique
-  accepted String
-  plusOne  Int
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  name      String
+  fullName  String   @unique
+  token     String   @unique
+  accepted  String
+  plusOne   Int
 }
 
 // FIXME: Should be an enum but sqlite adapter doesn't allow it

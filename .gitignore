@@ -38,3 +38,7 @@ next-env.d.ts
 # Database
 *.db
 prisma/birthdaiii.db
+prisma/birthdaiii.db*
+
+# Config
+birthdaiii.json
