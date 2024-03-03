@@ -19,6 +19,15 @@ export async function createInvite(name: string, fullName: string): Promise<Invi
     return await prisma.invite.create({data: {name: name, fullName: fullName, token: token, accepted: AcceptState.Pending, plusOne: 0}})
 }
 
+export async function updateInvite(invite: Invite): Promise<Invite> {
+    return await prisma.invite.update({
+        where: {token : invite.token},
+        data: invite
+    })
+}
+
+
+
 export async function deleteInvite(token: string) {
     await prisma.invite.delete({where: {token: token}})
 }
