@@ -33,10 +33,6 @@ import { AcceptState } from "@/lib/accept-state";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Link from "next/dist/client/link";
 
-function copyText(text: string) {
-    navigator.clipboard.writeText(text);
-}
-
 function acceptStateToEmoji(state: string): string {
     switch (state) {
         case AcceptState.Accepted: return "✅"
@@ -51,6 +47,13 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
     let [invites, setInvites] = useState(initialInvites)
     let [newInviteText, setNewInviteText] = useState("")
     let [inviteMessage, setInviteMessage] = useState("")
+
+    const copyText = (text: string) => {
+        navigator.clipboard.writeText(text);
+        toast({
+            title: "📋 Copied to Clipboard",
+        })
+    }
 
     const deleteInvite = async (invite: Invite) => {
         try {
