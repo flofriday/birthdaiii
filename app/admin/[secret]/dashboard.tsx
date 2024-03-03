@@ -37,6 +37,14 @@ function copyText(text: string) {
     navigator.clipboard.writeText(text);
 }
 
+function acceptStateToEmoji(state: AcceptState): string {
+    switch (state) {
+        case AcceptState.Accepted: return "✅"
+        case AcceptState.Pending: return "⏳"
+        case AcceptState.Declined: return "❌"
+    }
+}
+
 export default function Dashboard({ invites: initialInvites, event, adminSecret }: { invites: Invite[], event: EventDetails, adminSecret: string }) {
 
     let [invites, setInvites] = useState(initialInvites)
@@ -65,8 +73,8 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
 
             setInvites(invites.filter(i => i.token != invite.token))
             toast({
-                title: "Delete Invite",
-                description: `Deleted invite for ${invite.name} ${invite.fullName}`,
+                title: "Deleted Invite",
+                description: `Removed invite for ${invite.name} ${invite.fullName}`,
             })
 
         } catch (error) {
@@ -225,7 +233,7 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
                                             <TableCell>{invite.fullName}</TableCell>
 
                                             {/* FIXME: some more visual idicator */}
-                                            <TableCell>{invite.accepted}</TableCell>
+                                            <TableCell>{acceptStateToEmoji(invite.accepted)} {invite.accepted}</TableCell>
                                             <TableCell>{invite.plusOne}</TableCell>
                                             <TableCell>
                                                 <Button variant="outline" className="text-sm" onClick={() => copyText(craftInviteMessage(invite))}>
