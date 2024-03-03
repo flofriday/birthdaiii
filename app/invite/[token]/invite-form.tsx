@@ -123,6 +123,7 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
                     <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">Your in 🎉</h3>
                     <div className="pb-2">
                         That`&apos;s amazing, there is a WhatsApp group again: <br />
+                        <a className="text-blue-500 hover:underline" href={event.groupChat}>{event.groupChat}</a>
                     </div>
                     <div className="pb-4">
                         Do you plan on bringing a plus one and if so how

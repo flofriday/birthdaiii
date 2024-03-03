@@ -172,7 +172,7 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
                         <div className="pb-2">
                             <h5 className="font-bold">Total Attending</h5>
                             <span>
-                                {invites.reduce((acc: number, i: Invite) => acc + (i.accepted == AcceptState.Accepted ? 1 : 0), 0)}
+                                {invites.reduce((acc: number, i: Invite) => acc + (i.accepted == AcceptState.Accepted ? 1 + i.plusOne : 0), 0)}
                             </span>
                         </div>
                         <div className="pb-2">
@@ -240,7 +240,7 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
                                                         </DropdownMenuTrigger>
                                                         <DropdownMenuContent>
                                                             <DropdownMenuItem onClick={() => copyText(`${window.origin}/invite/${invite.token}`)}>Copy URL</DropdownMenuItem>
-                                                            <DropdownMenuItem><Link href={`${window.origin}/invite/${invite.token}`}>Check Invite</Link></DropdownMenuItem>
+                                                            <DropdownMenuItem><Link href={`/invite/${invite.token}`}>Check Invite</Link></DropdownMenuItem>
                                                             <DialogTrigger asChild>
                                                                 <DropdownMenuItem><span className="text-red-600">Delete</span></DropdownMenuItem>
                                                             </DialogTrigger>
