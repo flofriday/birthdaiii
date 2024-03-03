@@ -16,6 +16,8 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { EventDetails } from "@/lib/config";
 
+
+
 export default function InviteForm({ invite: initialInvite, event }: { invite: Invite, event: EventDetails }) {
 
     let [invite, setInvite] = useState(initialInvite)
@@ -23,6 +25,13 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
     let [loading, setLoading] = useState(false)
 
     const { toast } = useToast()
+
+    const copyText = (text: string) => {
+        navigator.clipboard.writeText(text);
+        toast({
+            title: "📋 Copied to Clipboard",
+        })
+    }
 
     const updateInvite = async (newInvite: Invite) => {
         setLoading(true);
@@ -37,10 +46,8 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
                 body: JSON.stringify(newInvite),
             });
 
-            console.log(response.ok)
             if (!response.ok) {
                 let message = (await response.json()).errorMessage
-                console.log(message)
                 if (message) {
                     throw new Error(message)
                 }
@@ -88,10 +95,14 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
                         <h3 className="font-bold">Location</h3>
                         {event.location}
                     </div>
-                    <div className="">
+                    <div className="pb-3">
                         <h3 className="font-bold">Drinks</h3>
                         There will be some basics, but bring what you like.
                     </div>
+                    <Button
+                        variant="outline"
+                        onClick={() => copyText(`Flo's Party 🎂\nDate: ${event.date}\nLocation: ${event.location}\nBring some drinks ;)`)}
+                    >Copy to Clipboard</Button>
                 </CardContent>
                 {/* FIXME: Add a copy function */}
                 {/* <CardFooter> */}
@@ -105,10 +116,16 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
                     <Button disabled={loading} className="w-full" variant="secondary" onClick={() => updateInvite({ ...invite, accepted: AcceptState.Declined, plusOne: 0 })} > I won't attend 😔</Button>
                 </div>
             ) : invite.accepted == AcceptState.Accepted ? (
-                <div className="pt-5 pb-2">
+                <div className="pt-5 pb-2 relative">
+                    {/* FIXME: Maybe a emoji explosion? */}
+                    {/* <span className="text-xl absolute animate-in duration-700 translate-y-48 left-[100%]">🎉</span> */}
+
                     <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">Your in 🎉</h3>
+                    <div className="pb-2">
+                        That's amazing, there is a WhatsApp group again: <br />
+                    </div>
                     <div className="pb-4">
-                        That's amazing, do you plan on bringing a plus one and if so how
+                        Do you plan on bringing a plus one and if so how
                         many?
                     </div>
 
@@ -117,8 +134,8 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
                         <Button disabled={loading || newPlusOne == invite.plusOne} onClick={() => updateInvite({ ...invite, plusOne: newPlusOne })}>Update</Button>
                     </div>
 
-                    <div className="h-full pt-3">
-                        <Button variant="link" onClick={() => updateInvite({ ...invite, accepted: AcceptState.Pending, plusOne: 0 })}>Reset all my choices</Button>
+                    <div className="h-full pt-6 text-left">
+                        <Button className="pl-0 text-left" variant="link" onClick={() => updateInvite({ ...invite, accepted: AcceptState.Pending, plusOne: 0 })}>Reset all my choices <br />(Only for this page, cannot reset other life choices)</Button>
                     </div>
                 </div>
             ) : (
@@ -127,7 +144,7 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
                     That's ok, some people are allergic to fun.
 
                     <div className="h-full pt-3">
-                        <Button variant="link" onClick={() => updateInvite({ ...invite, accepted: AcceptState.Pending, plusOne: 0 })}>What? No, I am fun!</Button>
+                        <Button className="pl-0" variant="link" onClick={() => updateInvite({ ...invite, accepted: AcceptState.Pending, plusOne: 0 })}>What? No, I am fun!</Button>
                     </div>
                 </div>
             )

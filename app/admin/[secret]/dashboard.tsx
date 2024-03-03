@@ -31,6 +31,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { AcceptState } from "@/lib/accept-state";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import Link from "next/dist/client/link";
 
 function copyText(text: string) {
     navigator.clipboard.writeText(text);
@@ -239,8 +240,9 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
                                                         </DropdownMenuTrigger>
                                                         <DropdownMenuContent>
                                                             <DropdownMenuItem onClick={() => copyText(`${window.origin}/invite/${invite.token}`)}>Copy URL</DropdownMenuItem>
+                                                            <DropdownMenuItem><Link href={`${window.origin}/invite/${invite.token}`}>Check Invite</Link></DropdownMenuItem>
                                                             <DialogTrigger asChild>
-                                                                <DropdownMenuItem>Delete</DropdownMenuItem>
+                                                                <DropdownMenuItem><span className="text-red-600">Delete</span></DropdownMenuItem>
                                                             </DialogTrigger>
 
                                                         </DropdownMenuContent>
