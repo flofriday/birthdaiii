@@ -19,9 +19,9 @@ jobs:
         script_stop: true
         script: |
           cd birthdaiii
-          systemctl --user stop birthdaiii.service
           git pull
           npm install
-          npx prisma db push
           npm run build
+          systemctl --user stop birthdaiii.service
+          npx prisma db push
           systemctl --user start birthdaiii.service

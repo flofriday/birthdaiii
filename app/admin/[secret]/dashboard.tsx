@@ -37,12 +37,13 @@ function copyText(text: string) {
     navigator.clipboard.writeText(text);
 }
 
-function acceptStateToEmoji(state: AcceptState): string {
+function acceptStateToEmoji(state: string): string {
     switch (state) {
         case AcceptState.Accepted: return "✅"
         case AcceptState.Pending: return "⏳"
         case AcceptState.Declined: return "❌"
     }
+    return ""
 }
 
 export default function Dashboard({ invites: initialInvites, event, adminSecret }: { invites: Invite[], event: EventDetails, adminSecret: string }) {
