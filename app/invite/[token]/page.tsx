@@ -7,11 +7,25 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { getInviteByToken } from "@/lib/invite-service";
+import { notFound } from "next/navigation";
+import { useState } from "react";
 
-export default function FAQ() {
+export default async function Invite({ params }: { params: { token: string } }) {
+
+    let invite = await getInviteByToken(params.token)
+    console.log(invite)
+    if (invite == null) {
+        return notFound()
+    }
+
+    //let [clicks, setClicks] = useState(0)
+
     return (
         <main className="min-h-screen py-24 px-12 max-w-2xl mx-auto">
-            <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl pb-6">Hi Valentin!</h1>
+            <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl pb-6">
+                Hi {invite.name}!
+            </h1>
 
             <div className="pb-4">
                 I'd love to invite you to my birthday party.
@@ -44,6 +58,7 @@ export default function FAQ() {
                 {/* </CardFooter> */}
             </Card>
 
+            <div></div>
             <div className="text-right">
                 <Button className="w-full mb-4">I'm in! 🎂 🎉</Button>
                 <Button className="w-full" variant="secondary">I won't attend 😔</Button>

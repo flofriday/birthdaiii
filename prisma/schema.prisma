@@ -1,0 +1,30 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./birthdaiii.db"
+}
+
+model Invite {
+  id       Int    @id @default(autoincrement())
+  name     String
+  fullName String @unique
+  token    String @unique
+  accepted String
+  plusOne  Int
+}
+
+// FIXME: Should be an enum but sqlite adapter doesn't allow it
+// enum AcceptOption {
+//   UNKNOWN
+//   ACCEPTED
+//   DECLIED
+// }
