@@ -17,6 +17,7 @@ import {
     DialogClose,
     DialogContent,
     DialogDescription,
+    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
@@ -29,11 +30,52 @@ import { MoreVertical } from "lucide-react"
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { AcceptState } from "@/lib/accept-state";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+
+function copyText(text: string) {
+    navigator.clipboard.writeText(text);
+}
 
 export default function Dashboard({ invites: initialInvites, event, adminSecret }: { invites: Invite[], event: EventDetails, adminSecret: string }) {
 
     let [invites, setInvites] = useState(initialInvites)
     let [newInviteText, setNewInviteText] = useState("")
+    let [inviteMessage, setInviteMessage] = useState("")
+
+    const deleteInvite = async (invite: Invite) => {
+        try {
+            const response = await fetch(`/api/admin/${adminSecret}/invite/${invite.token}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Add any other headers as needed (e.g., authentication headers)
+                },
+                body: "",
+            });
+
+            if (!response.ok) {
+                let message = (await response.json()).errorMessage
+                if (message) {
+                    throw new Error(message)
+                }
+
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            setInvites(invites.filter(i => i.token != invite.token))
+            toast({
+                title: "Delete Invite",
+                description: `Deleted invite for ${invite.name} ${invite.fullName}`,
+            })
+
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Something went wrong!",
+                description: `${error}`,
+            })
+        }
+    }
 
     const addNewInvites = async (inviteText: string) => {
         let rows = inviteText.split("\n")
@@ -42,7 +84,6 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
         for (let row of rows) {
             let [name, ...fullNames] = row.split(" ");
             let fullName = fullNames.join(" ")
-            console.log(fullName)
             try {
                 const response = await fetch(`/api/admin/${adminSecret}/invite/`, {
                     method: 'POST',
@@ -53,10 +94,8 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
                     body: JSON.stringify({ name: name.trim(), fullName: fullName.trim() }),
                 });
 
-                console.log(response.ok)
                 if (!response.ok) {
                     let message = (await response.json()).errorMessage
-                    console.log(message)
                     if (message) {
                         throw new Error(message)
                     }
@@ -73,8 +112,12 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
             }
 
             setInvites([...invites, ...newInvites])
+            toast({
+                title: `Created ${newInvites.length} invites`,
+            })
             if (errors.length > 0) {
                 toast({
+                    variant: "destructive",
                     title: "Something went wrong!",
                     description: `There were ${errors.length} errors:\n${errors.join('\n')}`,
                 })
@@ -82,6 +125,11 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
 
         }
     }
+
+    const craftInviteMessage = (invite: Invite) => {
+        return inviteMessage.replaceAll("$name", invite.name).replaceAll("$inviteUrl", `${window.origin}/invite/${invite.token}`)
+    }
+
 
     return (
         <main className="min-h-screen py-24 px-12 max-w-6xl mx-auto">
@@ -146,7 +194,7 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
                         <CardTitle>Invitation Message</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <Textarea></Textarea>
+                        <Textarea value={inviteMessage} onChange={(e) => setInviteMessage(e.target.value)}></Textarea>
                     </CardContent>
                     <CardFooter>
                         <p className="text-sm">You can use the following variables in the message:<br></br> $name $inviteUrl</p>
@@ -170,19 +218,45 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {invites.map((i: Invite) => (
-                                        <TableRow key={i.fullName}>
-                                            <TableCell className="font-medium">{i.name}</TableCell>
-                                            <TableCell>{i.fullName}</TableCell>
+                                    {invites.map((invite: Invite) => (
+                                        <TableRow key={invite.fullName}>
+                                            <TableCell className="font-medium">{invite.name}</TableCell>
+                                            <TableCell>{invite.fullName}</TableCell>
 
                                             {/* FIXME: some more visual idicator */}
-                                            <TableCell>{i.accepted}</TableCell>
-                                            <TableCell>{i.plusOne}</TableCell>
+                                            <TableCell>{invite.accepted}</TableCell>
+                                            <TableCell>{invite.plusOne}</TableCell>
                                             <TableCell>
-                                                <Button variant="outline" className="text-sm">Copy Invite</Button>
+                                                <Button variant="outline" className="text-sm" onClick={() => copyText(craftInviteMessage(invite))}>
+                                                    Copy Invite
+                                                </Button>
                                             </TableCell>
-                                            <TableCell className="text-right">
-                                                <Button variant="ghost" className="text-sm"> <MoreVertical></MoreVertical></Button>
+                                            <TableCell>
+                                                <Dialog>
+                                                    <DropdownMenu>
+                                                        <DropdownMenuTrigger asChild>
+                                                            <Button variant="ghost"> <MoreVertical></MoreVertical></Button>
+                                                        </DropdownMenuTrigger>
+                                                        <DropdownMenuContent>
+                                                            <DropdownMenuItem onClick={() => copyText(`${window.origin}/invite/${invite.token}`)}>Copy URL</DropdownMenuItem>
+                                                            <DialogTrigger asChild>
+                                                                <DropdownMenuItem>Delete</DropdownMenuItem>
+                                                            </DialogTrigger>
+
+                                                        </DropdownMenuContent>
+                                                    </DropdownMenu>
+                                                    <DialogContent>
+                                                        <DialogHeader>
+                                                            <DialogTitle>Deleting {invite.name} {invite.fullName}?</DialogTitle>
+                                                            <DialogDescription>
+                                                                Deleting an invite cannot be reverted. Also their invite URl will no longer work.
+                                                            </DialogDescription>
+                                                        </DialogHeader>
+                                                        <DialogFooter>
+                                                            <Button variant="destructive" onClick={async () => await deleteInvite(invite)}>Delete</Button>
+                                                        </DialogFooter>
+                                                    </DialogContent>
+                                                </Dialog>
                                             </TableCell>
                                         </TableRow>
                                     ))}
