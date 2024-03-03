@@ -1,0 +1,11 @@
+[Unit]
+Description=A birthday service
+After=network.target
+
+[Service]
+WorkingDirectory=/home/dancetime/birthdaiii/
+ExecStart=/bin/bash -c 'npm run start'
+Restart=always
+
+[Install]
+WantedBy=default.target
