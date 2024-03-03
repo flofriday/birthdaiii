@@ -25,7 +25,7 @@ import {
 import { EventDetails } from "@/lib/config";
 import { Invite } from "@prisma/client";
 import { Span } from "next/dist/trace";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MoreVertical } from "lucide-react"
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
@@ -46,7 +46,15 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
 
     let [invites, setInvites] = useState(initialInvites)
     let [newInviteText, setNewInviteText] = useState("")
-    let [inviteMessage, setInviteMessage] = useState("")
+    let [inviteMessage, setInviteMessage] = useState<string | null>(null)
+
+    useEffect(() => {
+        if (inviteMessage !== null) {
+            return
+        }
+
+        setInviteMessage(localStorage.getItem("inviteMessage") ?? "")
+    }, [])
 
     const copyText = (text: string) => {
         navigator.clipboard.writeText(text);
@@ -140,7 +148,7 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
     }
 
     const craftInviteMessage = (invite: Invite) => {
-        return inviteMessage.replaceAll("$name", invite.name).replaceAll("$inviteUrl", `${window.origin}/invite/${invite.token}`)
+        return inviteMessage?.replaceAll("$name", invite.name).replaceAll("$inviteUrl", `${window.origin}/invite/${invite.token}`)
     }
 
 
@@ -206,8 +214,12 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
                     <CardHeader>
                         <CardTitle>Invitation Message</CardTitle>
                     </CardHeader>
-                    <CardContent>
-                        <Textarea value={inviteMessage} onChange={(e) => setInviteMessage(e.target.value)}></Textarea>
+                    <CardContent >
+                        <Textarea className={"w-full transition transition-duration-500" + (inviteMessage == null ? "text-opacity-0" : "text-opacity-100")} disabled={inviteMessage == null} value={inviteMessage ?? ""} onChange={(e) => {
+                            setInviteMessage(e.target.value)
+                            localStorage.setItem('inviteMessage', e.target.value)
+                        }
+                        }></Textarea>
                     </CardContent>
                     <CardFooter>
                         <p className="text-sm">You can use the following variables in the message:<br></br> $name $inviteUrl</p>
@@ -240,7 +252,7 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
                                             <TableCell>{acceptStateToEmoji(invite.accepted)} {invite.accepted}</TableCell>
                                             <TableCell>{invite.plusOne}</TableCell>
                                             <TableCell>
-                                                <Button variant="outline" className="text-sm" onClick={() => copyText(craftInviteMessage(invite))}>
+                                                <Button disabled={inviteMessage == null || inviteMessage.trim() == ""} variant="outline" className="text-sm transition-all" onClick={() => copyText(craftInviteMessage(invite))}>
                                                     Copy Invite
                                                 </Button>
                                             </TableCell>
