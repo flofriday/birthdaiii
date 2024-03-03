@@ -148,7 +148,10 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
     }
 
     const craftInviteMessage = (invite: Invite) => {
-        return inviteMessage?.replaceAll("$name", invite.name).replaceAll("$inviteUrl", `${window.origin}/invite/${invite.token}`)
+        if (inviteMessage == null) {
+            return ""
+        }
+        return inviteMessage.replaceAll("$name", invite.name).replaceAll("$inviteUrl", `${window.origin}/invite/${invite.token}`)
     }
 
 
