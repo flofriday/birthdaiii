@@ -18,6 +18,8 @@ npm run dev
 
 Since this is a personal project only intended for me some information is hard coded into the website. However, I didn't wanted to dox myself so I left my home address and date out of the source code. They are defined in `birhtdaiii.json` and dynamically read (hot reloadable). 
 
+The real configuration file is obviously not part of this repo but I provided a example file with `birthdaiii-example.json`.
+
 ## Usage
 
 First, you will need to create some invites on the admin page. The adminpage is at `/admin/{secret}` with the secret being defined in `bithdaiii.json`.
