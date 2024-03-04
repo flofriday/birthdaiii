@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 
 export default function Home() {
   return (
-    <main className="min-h-screen py-24 px-10 lg:px-12 max-w-2xl mx-auto">
+    <main className="pt-24 pb-10 px-10 lg:px-12 max-w-2xl mx-auto">
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl pb-6">birthdaiii 🎂</h1>
       <p className="pb-3">
         This is an over engineered birthday party management tool for my

@@ -156,7 +156,7 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
 
 
     return (
-        <main className="min-h-screen py-24 px-12 max-w-6xl mx-auto">
+        <main className="pt-24 pb-10 px-12 max-w-6xl mx-auto">
             <div className="flex justify-between">
                 <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl pb-6">
                     Admin Dashboard
