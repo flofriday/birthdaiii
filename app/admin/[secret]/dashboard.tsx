@@ -103,6 +103,10 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
         let errors: string[] = []
         let newInvites: Invite[] = []
         for (let row of rows) {
+            if (row.trim() == "") {
+                continue
+            }
+
             let [name, ...fullNames] = row.split(" ");
             let fullName = fullNames.join(" ")
             try {
@@ -133,6 +137,7 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
             }
 
             setInvites([...invites, ...newInvites])
+            setNewInviteText("")
             toast({
                 title: `Created ${newInvites.length} invites`,
             })
