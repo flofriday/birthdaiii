@@ -1,6 +1,6 @@
 export default function FAQ() {
   return (
-    <main className="min-h-screen py-24 px-12 max-w-4xl mx-auto">
+    <main className="min-h-screen py-24 px-10 lg:px-12 max-w-2xl mx-auto">
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl pb-6">birthdaiii🎂 FAQ</h1>
 
       <div className="pb-6">
@@ -23,7 +23,7 @@ export default function FAQ() {
         <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">So why did you built it?</h2>
         <p>
           Partly, because I can and partly because for my last party I wrote
-          a scientific paper as an invitation, so this time I needed to
+          a scientific paper as an invitation. So this time I needed to
           up my game, cause the competition is fierce!
         </p>
       </div>
@@ -47,7 +47,7 @@ export default function FAQ() {
       <div className="pb-6">
         <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">Is it Open Source?</h2>
         <p>
-          I mean, you do know me right? <br />
+          I mean, you do know me right? 🦉 <br />
           <a className="text-blue-500 hover:underline" href="https://github.com/flofriday/birthdaiii">https://github.com/flofriday/birthdaiii</a>
         </p>
       </div>

@@ -54,7 +54,7 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
         }
 
         setInviteMessage(localStorage.getItem("inviteMessage") ?? "")
-    }, [])
+    }, [inviteMessage])
 
     const copyText = (text: string) => {
         navigator.clipboard.writeText(text);

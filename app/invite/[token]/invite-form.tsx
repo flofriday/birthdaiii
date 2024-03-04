@@ -70,7 +70,7 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
 
 
     return (
-        <main className="min-h-screen py-24 px-12 max-w-2xl mx-auto">
+        <main className="min-h-screen py-24 px-10 lg:px-12 max-w-2xl mx-auto">
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl pb-6">
                 Hi {invite.name}!
             </h1>
@@ -135,8 +135,11 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
                         <Button disabled={loading || newPlusOne == invite.plusOne} onClick={() => updateInvite({ ...invite, plusOne: newPlusOne })}>Update</Button>
                     </div>
 
-                    <div className="h-full pt-6 text-left">
-                        <Button className="pl-0 text-left" variant="link" onClick={() => updateInvite({ ...invite, accepted: AcceptState.Pending, plusOne: 0 })}>Reset all my choices <br />(Only for this page, cannot reset other life choices)</Button>
+                    <div className="h-full pt-8 text-left">
+                        <Button className="h-2 pl-0 text-left" variant="link" onClick={() => updateInvite({ ...invite, accepted: AcceptState.Pending, plusOne: 0 })}>Reset all my choices</Button>
+                        <span className="text-sm text-slate-500">
+                            <br />(Only for this page, cannot reset other life choices)
+                        </span>
                     </div>
                 </div>
             ) : (
