@@ -56,6 +56,10 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
             }
 
             setInvite(await response.json());
+
+            toast({
+                title: "✅ Updated Plus One",
+            })
         } catch (error) {
             //Handle any errors that occurred during the fetch
             setNewPlusOne(invite.plusOne)
@@ -65,6 +69,7 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
                 description: `${error}`,
             })
         }
+
         setLoading(false);
     };
 

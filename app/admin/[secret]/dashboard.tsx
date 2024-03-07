@@ -56,10 +56,11 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
         setInviteMessage(localStorage.getItem("inviteMessage") ?? "")
     }, [inviteMessage])
 
-    const copyText = (text: string) => {
+    const copyText = (text: string, description?: string) => {
         navigator.clipboard.writeText(text);
         toast({
             title: "📋 Copied to Clipboard",
+            description: description
         })
     }
 
@@ -200,7 +201,11 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
                         <div className="pb-2">
                             <h5 className="font-bold">Total Attending</h5>
                             <span>
-                                {invites.reduce((acc: number, i: Invite) => acc + (i.accepted == AcceptState.Accepted ? 1 + i.plusOne : 0), 0)}
+                                {
+                                    invites
+                                        .filter(i => i.accepted == AcceptState.Accepted)
+                                        .reduce((acc: number, i: Invite) => acc + 1 + i.plusOne, 0)
+                                }
                             </span>
                         </div>
                         <div className="pb-2">
@@ -212,7 +217,11 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
                         <div className="pb-2">
                             <h5 className="font-bold">Pending</h5>
                             <span>
-                                {invites.filter(i => i.accepted == AcceptState.Pending).length}
+                                {
+                                    invites
+                                        .filter(i => i.accepted == AcceptState.Pending)
+                                        .length
+                                }
                             </span>
                         </div>
                     </CardContent>
@@ -260,7 +269,7 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
                                             <TableCell>{acceptStateToEmoji(invite.accepted)} {invite.accepted}</TableCell>
                                             <TableCell>{invite.plusOne}</TableCell>
                                             <TableCell>
-                                                <Button disabled={inviteMessage == null || inviteMessage.trim() == ""} variant="outline" className="text-sm transition-all" onClick={() => copyText(craftInviteMessage(invite))}>
+                                                <Button disabled={inviteMessage == null || inviteMessage.trim() == ""} variant="outline" className="text-sm transition-all" onClick={() => copyText(craftInviteMessage(invite), `Invite message for ${invite.name}`)}>
                                                     Copy Invite
                                                 </Button>
                                             </TableCell>
@@ -271,7 +280,7 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
                                                             <Button variant="ghost"> <MoreVertical></MoreVertical></Button>
                                                         </DropdownMenuTrigger>
                                                         <DropdownMenuContent>
-                                                            <DropdownMenuItem onClick={() => copyText(`${window.origin}/invite/${invite.token}`)}>Copy URL</DropdownMenuItem>
+                                                            <DropdownMenuItem onClick={() => copyText(`${window.origin}/invite/${invite.token}`, `Invite URL for ${invite.name}`)}>Copy URL</DropdownMenuItem>
                                                             <DropdownMenuItem><Link href={`/invite/${invite.token}`}>Check Invite</Link></DropdownMenuItem>
                                                             <DialogTrigger asChild>
                                                                 <DropdownMenuItem><span className="text-red-600">Delete</span></DropdownMenuItem>
