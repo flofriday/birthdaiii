@@ -4,6 +4,11 @@ An over engineered invitation management website.
 
 ![Screenshot](screenshot.png)
 
+## Features
+- Keep track of who you invite and who accepts.
+- Send out customized links for each guest.
+- Write an invitation template and automatically fill in the name.
+
 ## Run it yourself
 ```
 npm install
