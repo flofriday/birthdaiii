@@ -82,16 +82,29 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
                 Hi {invite.name}!
             </h1>
 
-            <div className="pb-4">
-                I&apos;d love to invite you to my birthday party.
-                It will once again be a chill hang with music, some foods, drinks
-                and definitely more dancing 😉
+            <div className="pb-4 text-slate-500">
+                <p className="pb-2">
+                    I&apos;d love to invite you to my chaotic homewarming / punch party.
+                </p>
+                <p className="pb-2">
+                    Do I know how many people my new flat holds or will it have
+                    enough seating options? Yeah that's a hard no for both.
+                </p>
+                <p className="pb-2">
+                    But to compensate for that, I also have no idea how to make
+                    good punch.
+                </p>
+                <p className="pb-2">
+                    Anyway, I'm planning for a chill hang, and will try my best
+                    to keep Paul far away from any music choices so that it doesn't escalate to a conversation drowning hard-style rave.
+                    (Yes Paul, this section is in every invite not just in yours.)
+                </p>
             </div>
 
             <Card className="mb-4">
                 <CardHeader>
                     <CardTitle>The Hard Facts</CardTitle>
-                    <CardDescription>Flo&apos;s Birthday Party 🎂</CardDescription>
+                    <CardDescription>Flo&apos;s Punch Party ☕️❄️</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="pb-3">
@@ -145,17 +158,17 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
                     <div className="h-full pt-8 text-left">
                         <Button className="h-2 pl-0 text-left" variant="link" onClick={() => updateInvite({ ...invite, accepted: AcceptState.Pending, plusOne: 0 })}>Reset all my choices</Button>
                         <span className="text-sm text-slate-500">
-                            <br />(Only for this page, cannot reset other life choices)
+                            <br />(Only affects your invite, cannot reset other life choices)
                         </span>
                     </div>
                 </div>
             ) : (
                 <div className="pt-5 pb-2">
                     <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">You won&apos;t attend 😔</h3>
-                    That&apos;s ok, some people are allergic to fun.
+                    That&apos;s ok, some people just don't know how to have fun.
 
                     <div className="h-full pt-3">
-                        <Button className="pl-0" variant="link" onClick={() => updateInvite({ ...invite, accepted: AcceptState.Pending, plusOne: 0 })}>What? No, I am fun!</Button>
+                        <Button className="pl-0" variant="link" onClick={() => updateInvite({ ...invite, accepted: AcceptState.Pending, plusOne: 0 })}>What? No! I am fun!</Button>
                     </div>
                 </div>
             )
