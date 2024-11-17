@@ -27,8 +27,8 @@ export default function RootLayout({
           <footer className="mx-auto w-full px-10 lg:px-12 max-w-2xl text-slate-600 text-sm py-3 flex justify-between">
             <span >
               Built for fun
-              <span className="max-[450px]:hidden">, for a single Birthday</span>
-              <span> 🎂</span>
+              <span className="max-[450px]:hidden">, for my parties</span>
+              <span> 🎉</span>
             </span>
             <span>
               <a className="underline" href="https://github.com/flofriday/birthdaiii">GitHub</a> · <Link className="underline" href="/faq">FAQ</Link>

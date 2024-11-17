@@ -5,13 +5,14 @@ export default function FAQ() {
 
       <div className="pb-6">
         <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">What is this thing?</h2>
-        <p>It&apos;s a simple website I wrote to manage the invites for my birthday party.</p>
+        <p>It&apos;s a simple website I wrote to manage the invites for my parties.</p>
       </div>
 
 
       <div className="pb-6">
-        <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">Did you really build this just for a birthday?</h2>
+        <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">Did you really build this just for a single birthday?</h2>
         <p>Sure.</p>
+        <p>However, since it was quite useful, I kept reusing it for more parties.</p>
       </div>
 
       <div className="pb-6">

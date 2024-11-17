@@ -1,5 +1,5 @@
 [Unit]
-Description=A birthday service
+Description=A invitation management service
 After=network.target
 
 [Service]
