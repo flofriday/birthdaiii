@@ -1,6 +1,6 @@
 # birthdaiii 🎂
 
-An over engineered invitation management website.
+An over engineered invitation management webapp.
 
 ![Screenshot](screenshot.png)
 
