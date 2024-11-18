@@ -88,15 +88,15 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
                 </p>
                 <p className="pb-2">
                     Do I know how many people my new flat holds or will it have
-                    enough seating options? Yeah that's a hard no for both.
+                    enough seating options? Yeah that&apos;s a hard no for both.
                 </p>
                 <p className="pb-2">
                     But to compensate for that, I also have no idea how to make
                     good punch.
                 </p>
                 <p className="pb-2">
-                    Anyway, I'm planning for a chill hang, and will try my best
-                    to keep Paul far away from any music choices so that it doesn't escalate to a conversation drowning hard-style rave.
+                    Anyway, I&apos;m planning for a chill hang, and will try my best
+                    to keep Paul far away from any music choices so that it doesn&apos;t escalate to a conversation drowning hard-style rave.
                     (Yes Paul, this section is in every invite not just in yours.)
                 </p>
             </div>
@@ -165,7 +165,7 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
             ) : (
                 <div className="pt-5 pb-2">
                     <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">You won&apos;t attend 😔</h3>
-                    That&apos;s ok, some people just don't know how to have fun.
+                    That&apos;s ok, some people just don&apos;t know how to have fun.
 
                     <div className="h-full pt-3">
                         <Button className="pl-0" variant="link" onClick={() => updateInvite({ ...invite, accepted: AcceptState.Pending, plusOne: 0 })}>What? No! I am fun!</Button>
