@@ -5,7 +5,6 @@ import {
     Card,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
@@ -87,8 +86,9 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
                     I&apos;d love to invite you to my chaotic homewarming / punch party.
                 </p>
                 <p className="pb-2">
-                    Do I know how many people my new flat holds or will it have
-                    enough seating options? Yeah that&apos;s a hard no for both.
+                    Do I have the slightest idea of how many people I can fit in
+                    my new flat or if there will be enough seating options?
+                    Yeah that&apos;s a hard no on both.
                 </p>
                 <p className="pb-2">
                     But to compensate for that, I also have no idea how to make
@@ -96,7 +96,7 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
                 </p>
                 <p className="pb-2">
                     Anyway, I&apos;m planning for a chill hang, and will try my best
-                    to keep Paul far away from any music choices so that it doesn&apos;t escalate to a conversation drowning hard-style rave.
+                    to keep Paul far away from any music choices so that it doesn&apos;t escalate in a conversation-drowning hard-style rave.
                     (Yes Paul, this section is in every invite not just in yours.)
                 </p>
             </div>
@@ -104,7 +104,7 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
             <Card className="mb-4">
                 <CardHeader>
                     <CardTitle>The Hard Facts</CardTitle>
-                    <CardDescription>Flo&apos;s Punch Party ☕️❄️</CardDescription>
+                    <CardDescription>Flo&apos;s Punch Party ☕️✨</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="pb-3">
@@ -121,13 +121,9 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
                     </div>
                     <Button
                         variant="outline"
-                        onClick={() => copyText(`Flo's Party 🎂\nDate: ${event.date}\nLocation: ${event.location}\nBring some drinks ;)`)}
+                        onClick={() => copyText(`Flo's Punch Party ☕️✨\nDate: ${event.date}\nLocation: ${event.location}\nBring some drinks ;)`)}
                     >Copy to Clipboard</Button>
                 </CardContent>
-                {/* FIXME: Add a copy function */}
-                {/* <CardFooter> */}
-                {/* <Button></Button> */}
-                {/* </CardFooter> */}
             </Card>
 
             {invite.accepted == AcceptState.Pending ? (
