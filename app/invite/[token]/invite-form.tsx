@@ -148,7 +148,7 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
 
                     <div className="flex space-x-4">
                         <Input type="number" placeholder="" className="max-w-64" value={newPlusOne} onChange={(e) => setNewPlusOne(e.target.valueAsNumber)} />
-                        <Button disabled={loading || newPlusOne == invite.plusOne} onClick={() => updateInvite({ ...invite, plusOne: newPlusOne })}>Update</Button>
+                        <Button disabled={Number.isNaN(newPlusOne) || loading || newPlusOne == invite.plusOne} onClick={() => updateInvite({ ...invite, plusOne: newPlusOne })}>Update</Button>
                     </div>
 
                     <div className="h-full pt-8 text-left">
