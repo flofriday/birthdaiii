@@ -239,7 +239,10 @@ export default function Dashboard({ invites: initialInvites, event, adminSecret 
                         }></Textarea>
                     </CardContent>
                     <CardFooter>
-                        <p className="text-sm">You can use the following variables in the message:<br></br> $name $inviteUrl</p>
+                        <p className="text-sm">You can use the following variables in the message:<br />
+                            <span className={(inviteMessage && inviteMessage.includes('$name')) ? "text-teal-500" : "text-slate-500"}>$name </span>
+                            <span className={(inviteMessage && inviteMessage.includes('$inviteUrl')) ? "text-teal-500" : "text-slate-500"}>$inviteUrl</span>
+                        </p>
                     </CardFooter>
                 </Card>
             </div>
