@@ -15,7 +15,22 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { EventDetails } from "@/lib/config";
 
+function generateICSContent(event: EventDetails) {
+    // Format date for ICS (assumes event.date is in a readable format)
+    const eventDate = new Date(event.date);
+    const formatDate = (date: Date) => date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
 
+    return `BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+DTSTART:${formatDate(eventDate)}
+DTEND:${formatDate(new Date(eventDate.getTime() + 8 * 60 * 60 * 1000))} 
+SUMMARY:Flo's Punch Party
+LOCATION:${event.location}
+DESCRIPTION:Homewarming / Punch Party - Don't forget to bring drinks!
+END:VEVENT
+END:VCALENDAR`;
+}
 
 export default function InviteForm({ invite: initialInvite, event }: { invite: Invite, event: EventDetails }) {
 
@@ -74,6 +89,18 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
         setLoading(false);
     };
 
+    const downloadCalendarFile = () => {
+        const icsContent = generateICSContent(event);
+        const blob = new Blob([icsContent], { type: 'text/calendar' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'punch-party.ics');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+    };
 
     return (
         <main className="pt-24 pb-10 px-10 lg:px-12 max-w-2xl mx-auto">
@@ -119,10 +146,16 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
                         <h3 className="font-bold">Drinks</h3>
                         There will be some basics, but bring what you like.
                     </div>
-                    <Button
-                        variant="outline"
-                        onClick={() => copyText(`Flo's Punch Party ☕️✨\nDate: ${event.date}\nLocation: ${event.location}\nBring some drinks ;)`)}
-                    >Copy to Clipboard</Button>
+                    <div className="space-x-2">
+                        <Button
+                            variant="outline"
+                            onClick={() => copyText(`Flo's Punch Party ☕️✨\nDate: ${event.date}\nLocation: ${event.location}\nBring some drinks ;)`)}
+                        >Copy to Clipboard</Button>
+                        <Button
+                            variant="outline"
+                            onClick={downloadCalendarFile}
+                        >Add to Calendar 📅</Button>
+                    </div>
                 </CardContent>
             </Card>
 
