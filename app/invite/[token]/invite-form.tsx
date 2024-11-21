@@ -16,11 +16,28 @@ import { useToast } from "@/components/ui/use-toast";
 import { EventDetails } from "@/lib/config";
 
 function generateICSContent(event: EventDetails) {
-    // Format date for ICS (assumes event.date is in a readable format)
-    const eventDate = new Date(event.date);
-    const formatDate = (date: Date) => date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    try {
+        // Try direct Date parsing first
+        let eventDate = new Date(event.date);
 
-    return `BEGIN:VCALENDAR
+        // If invalid, try European format (DD.MM.YYYY)
+        if (isNaN(eventDate.getTime())) {
+            const [day, month, year] = event.date.split('.').map(n => parseInt(n, 10));
+            eventDate = new Date(year, month - 1, day);
+        }
+
+        // If still invalid, return null
+        if (isNaN(eventDate.getTime())) {
+            return null;
+        }
+
+        const formatDate = (date: Date) => {
+            return date.toISOString()
+                .replace(/[-:]/g, '')
+                .split('.')[0] + 'Z';
+        };
+
+        return `BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT
 DTSTART:${formatDate(eventDate)}
@@ -30,6 +47,9 @@ LOCATION:${event.location}
 DESCRIPTION:Homewarming / Punch Party - Don't forget to bring drinks!
 END:VEVENT
 END:VCALENDAR`;
+    } catch (error) {
+        return null;
+    }
 }
 
 export default function InviteForm({ invite: initialInvite, event }: { invite: Invite, event: EventDetails }) {
@@ -151,10 +171,12 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
                             variant="outline"
                             onClick={() => copyText(`Flo's Punch Party ☕️✨\nDate: ${event.date}\nLocation: ${event.location}\nBring some drinks ;)`)}
                         >Copy to Clipboard</Button>
-                        <Button
-                            variant="outline"
-                            onClick={downloadCalendarFile}
-                        >Add to Calendar 📅</Button>
+                        {generateICSContent(event) && (
+                            <Button
+                                variant="outline"
+                                onClick={downloadCalendarFile}
+                            >Add to Calendar 📅</Button>
+                        )}
                     </div>
                 </CardContent>
             </Card>
