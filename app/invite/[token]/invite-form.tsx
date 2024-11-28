@@ -15,7 +15,71 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { EventDetails } from "@/lib/config";
 
+function generateICSContent(event: EventDetails) {
+    try {
+        let eventDate: Date | null = null;
 
+        // Try direct Date parsing first
+        eventDate = new Date(event.date);
+
+        // If invalid, try European format (DD.MM.YYYY)
+        if (isNaN(eventDate.getTime())) {
+            const [day, month, year] = event.date.split('.').map(n => parseInt(n, 10));
+            eventDate = new Date(year, month - 1, day);
+        }
+
+        // If invalid, try format like "30. November 19:00"
+        if (isNaN(eventDate.getTime())) {
+            const months: { [key: string]: number } = {
+                'january': 0, 'februar': 1, 'march': 2, 'april': 3,
+                'may': 4, 'june': 5, 'july': 6, 'august': 7,
+                'september': 8, 'october': 9, 'november': 10, 'december': 11
+            };
+
+            const match = event.date.toLowerCase().match(/(\d+)\.\s*(\w+)(?:\s+(\d{1,2}):(\d{2}))?/);
+            if (match) {
+                const [_, day, monthStr, hours = "0", minutes = "0"] = match;
+                const month = months[monthStr];
+
+                if (month !== undefined) {
+                    // Use current year if not specified
+                    const currentYear = new Date().getFullYear();
+                    eventDate = new Date(currentYear, month, parseInt(day),
+                        parseInt(hours), parseInt(minutes));
+                }
+            }
+        }
+
+        // If still invalid, return null
+        if (!eventDate || isNaN(eventDate.getTime())) {
+            return null;
+        }
+
+        const formatDate = (date: Date) => {
+            return date.toISOString()
+                .replace(/[-:]/g, '')
+                .split('.')[0] + 'Z';
+        };
+
+        // If no time was specified, set default time to noon
+        if (eventDate.getHours() === 0 && eventDate.getMinutes() === 0) {
+            eventDate.setHours(12, 0, 0, 0);
+        }
+
+        return `BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+DTSTART:${formatDate(eventDate)}
+DTEND:${formatDate(new Date(eventDate.getTime() + 8 * 60 * 60 * 1000))} 
+SUMMARY:Flo's Punch Party
+LOCATION:${event.location}
+DESCRIPTION:Homewarming / Punch Party - Don't forget to bring drinks!
+END:VEVENT
+END:VCALENDAR`;
+    } catch (error) {
+        return null;
+    }
+}
 
 export default function InviteForm({ invite: initialInvite, event }: { invite: Invite, event: EventDetails }) {
 
@@ -74,6 +138,20 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
         setLoading(false);
     };
 
+    const downloadCalendarFile = () => {
+        const icsContent = generateICSContent(event);
+        if (!icsContent) return;
+
+        const blob = new Blob([icsContent], { type: 'text/calendar' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'punch-party.ics');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+    };
 
     return (
         <main className="pt-24 pb-10 px-10 lg:px-12 max-w-2xl mx-auto">
@@ -119,10 +197,18 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
                         <h3 className="font-bold">Drinks</h3>
                         There will be some basics, but bring what you like.
                     </div>
-                    <Button
-                        variant="outline"
-                        onClick={() => copyText(`Flo's Punch Party ☕️✨\nDate: ${event.date}\nLocation: ${event.location}\nBring some drinks ;)`)}
-                    >Copy to Clipboard</Button>
+                    <div className="space-x-2">
+                        <Button
+                            variant="outline"
+                            onClick={() => copyText(`Flo's Punch Party ☕️✨\nDate: ${event.date}\nLocation: ${event.location}\nBring some drinks ;)`)}
+                        >Copy to Clipboard</Button>
+                        {generateICSContent(event) && (
+                            <Button
+                                variant="outline"
+                                onClick={downloadCalendarFile}
+                            >Add to Calendar 📅</Button>
+                        )}
+                    </div>
                 </CardContent>
             </Card>
 
