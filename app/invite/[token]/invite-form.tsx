@@ -17,8 +17,10 @@ import { EventDetails } from "@/lib/config";
 
 function generateICSContent(event: EventDetails) {
     try {
+        let eventDate: Date | null = null;
+
         // Try direct Date parsing first
-        let eventDate = new Date(event.date);
+        eventDate = new Date(event.date);
 
         // If invalid, try European format (DD.MM.YYYY)
         if (isNaN(eventDate.getTime())) {
@@ -26,8 +28,30 @@ function generateICSContent(event: EventDetails) {
             eventDate = new Date(year, month - 1, day);
         }
 
-        // If still invalid, return null
+        // If invalid, try format like "30. November 19:00"
         if (isNaN(eventDate.getTime())) {
+            const months: { [key: string]: number } = {
+                'january': 0, 'februar': 1, 'march': 2, 'april': 3,
+                'may': 4, 'june': 5, 'july': 6, 'august': 7,
+                'september': 8, 'october': 9, 'november': 10, 'december': 11
+            };
+
+            const match = event.date.toLowerCase().match(/(\d+)\.\s*(\w+)(?:\s+(\d{1,2}):(\d{2}))?/);
+            if (match) {
+                const [_, day, monthStr, hours = "0", minutes = "0"] = match;
+                const month = months[monthStr];
+
+                if (month !== undefined) {
+                    // Use current year if not specified
+                    const currentYear = new Date().getFullYear();
+                    eventDate = new Date(currentYear, month, parseInt(day),
+                        parseInt(hours), parseInt(minutes));
+                }
+            }
+        }
+
+        // If still invalid, return null
+        if (!eventDate || isNaN(eventDate.getTime())) {
             return null;
         }
 
@@ -36,6 +60,11 @@ function generateICSContent(event: EventDetails) {
                 .replace(/[-:]/g, '')
                 .split('.')[0] + 'Z';
         };
+
+        // If no time was specified, set default time to noon
+        if (eventDate.getHours() === 0 && eventDate.getMinutes() === 0) {
+            eventDate.setHours(12, 0, 0, 0);
+        }
 
         return `BEGIN:VCALENDAR
 VERSION:2.0
@@ -111,6 +140,8 @@ export default function InviteForm({ invite: initialInvite, event }: { invite: I
 
     const downloadCalendarFile = () => {
         const icsContent = generateICSContent(event);
+        if (!icsContent) return;
+
         const blob = new Blob([icsContent], { type: 'text/calendar' });
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
