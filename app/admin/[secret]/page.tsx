@@ -3,9 +3,10 @@ import { getAllInvites } from "@/lib/invite-service";
 import { notFound } from "next/navigation";
 import Dashboard from "./dashboard";
 
-export default async function Admin({ params }: { params: { secret: string } }) {
+export default async function Admin(props: { params: Promise<{ secret: string }> }) {
+    const params = await props.params;
 
-    if (params.secret != await getAdminSecret()) {
+    if (params.secret != (await getAdminSecret())) {
         return notFound()
     }
 
@@ -15,5 +16,4 @@ export default async function Admin({ params }: { params: { secret: string } }) 
     return (
         <Dashboard invites={invites} event={eventDetails} adminSecret={params.secret}></Dashboard>
     )
-
 }

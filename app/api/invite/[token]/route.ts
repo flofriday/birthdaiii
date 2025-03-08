@@ -2,10 +2,8 @@ import { getInviteByToken, updateInvite } from "@/lib/invite-service";
 import { Invite } from "@prisma/client";
 
 export const dynamic = "force-dynamic"; // defaults to auto
-export async function PATCH(
-  request: Request,
-  { params }: { params: { token: string } }
-) {
+export async function PATCH(request: Request, props: { params: Promise<{ token: string }> }) {
+  const params = await props.params;
   // Verify the user hasa token
   if (getInviteByToken(params.token) == null) {
     return Response.json({}, { status: 403 });
@@ -38,9 +36,7 @@ export async function PATCH(
   return Response.json(updatedInvite);
 }
 
-export async function GET(
-  request: Request,
-  { params }: { params: { token: string } }
-) {
+export async function GET(request: Request, props: { params: Promise<{ token: string }> }) {
+  const params = await props.params;
   return Response.json(params);
 }

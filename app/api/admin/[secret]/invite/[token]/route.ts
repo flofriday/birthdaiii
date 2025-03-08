@@ -3,8 +3,9 @@ import { deleteInvite } from "@/lib/invite-service";
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { secret: string; token: string } }
+  props: { params: Promise<{ secret: string; token: string }> }
 ) {
+  const params = await props.params;
   if (params.secret != (await getAdminSecret())) {
     return Response.json(
       { errorMessage: "You are not the admin!" },

@@ -1,18 +1,20 @@
 import { getAdminSecret } from "@/lib/config";
 import { createInvite, getAllInvites } from "@/lib/invite-service";
 
-export async function GET(request: Request, {params}: {params: {secret: string}}) {
+export async function GET(request: Request, props: {params: Promise<{secret: string}>}) {
+    const params = await props.params;
 
-    if (params.secret != await getAdminSecret()) {
+    if (params.secret != (await getAdminSecret())) {
         return Response.json({errorMessage: "You are not the admin!"}, {status: 403})
     }
 
     return Response.json(await getAllInvites())
 }
 
-export async function POST(request: Request, {params}: {params: {secret: string}}) {
+export async function POST(request: Request, props: {params: Promise<{secret: string}>}) {
+    const params = await props.params;
 
-    if (params.secret != await getAdminSecret()) {
+    if (params.secret != (await getAdminSecret())) {
         return Response.json({errorMessage: "You are not the admin!"}, {status: 403})
     }
 

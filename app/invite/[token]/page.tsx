@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import InviteForm from "./invite-form";
 import { getEventDetails } from "@/lib/config";
 
-export async function generateMetadata({ params }: { params: { token: string } }) {
+export async function generateMetadata(props: { params: Promise<{ token: string }> }) {
+    const params = await props.params;
     let invite = await getInviteByToken(params.token)
     if (invite == null) {
         return notFound()
@@ -17,7 +18,8 @@ export async function generateMetadata({ params }: { params: { token: string } }
     }
 }
 
-export default async function Invite({ params }: { params: { token: string } }) {
+export default async function Invite(props: { params: Promise<{ token: string }> }) {
+    const params = await props.params;
 
     let invite = await getInviteByToken(params.token)
     if (invite == null) {
