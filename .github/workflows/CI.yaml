@@ -1,4 +1,4 @@
-# A basic action that deploys to the server 
+# A basic action that deploys to the server
 
 name: CI
 
@@ -9,19 +9,21 @@ jobs:
     if: ${{ github.ref_name == 'main' }}
     runs-on: ubuntu-latest
     steps:
-    - name: deploy on production server
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
-        script_stop: true
-        script: |
-          cd birthdaiii
-          git pull
-          npm install
-          npm run build
-          systemctl --user stop birthdaiii.service
-          npx prisma db push
-          systemctl --user start birthdaiii.service
+      - name: deploy on production server
+        uses: appleboy/ssh-action@v1.2.1
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script_stop: true
+          script: |
+            source ~/.nvm/nvm.sh
+            nvm use 22
+            cd birthdaiii
+            git pull
+            npm install
+            npm run build
+            systemctl --user stop birthdaiii.service
+            npx prisma db push
+            systemctl --user start birthdaiii.service
