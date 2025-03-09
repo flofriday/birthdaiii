@@ -16,7 +16,7 @@ export async function generateMetadata(props: {
 
   return {
     title: `Hi ${invite.name}!`,
-    description: `Invitation to my punch party, on the ${eventDetails.date}. Click the link to accept or decline.`,
+    description: `Invitation to my ${eventDetails.name}, on the ${eventDetails.date}. Click the link to accept or decline.`,
   };
 }
 
