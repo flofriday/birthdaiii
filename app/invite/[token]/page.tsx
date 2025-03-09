@@ -3,32 +3,34 @@ import { notFound } from "next/navigation";
 import InviteForm from "./invite-form";
 import { getEventDetails } from "@/lib/config";
 
-export async function generateMetadata(props: { params: Promise<{ token: string }> }) {
-    const params = await props.params;
-    let invite = await getInviteByToken(params.token)
-    if (invite == null) {
-        return notFound()
-    }
+export async function generateMetadata(props: {
+  params: Promise<{ token: string }>;
+}) {
+  const params = await props.params;
+  let invite = await getInviteByToken(params.token);
+  if (invite == null) {
+    return notFound();
+  }
 
-    let eventDetails = await getEventDetails()
+  let eventDetails = await getEventDetails();
 
-    return {
-        title: `Hi ${invite.name}!`,
-        description: `Invitation to my punch party, on the ${eventDetails.date}. Click the link to accept or decline.`
-    }
+  return {
+    title: `Hi ${invite.name}!`,
+    description: `Invitation to my punch party, on the ${eventDetails.date}. Click the link to accept or decline.`,
+  };
 }
 
-export default async function Invite(props: { params: Promise<{ token: string }> }) {
-    const params = await props.params;
+export default async function Invite(props: {
+  params: Promise<{ token: string }>;
+}) {
+  const params = await props.params;
 
-    let invite = await getInviteByToken(params.token)
-    if (invite == null) {
-        return notFound()
-    }
+  let invite = await getInviteByToken(params.token);
+  if (invite == null) {
+    return notFound();
+  }
 
-    let eventDetails = await getEventDetails()
+  let eventDetails = await getEventDetails();
 
-    return (
-        <InviteForm invite={invite} event={eventDetails}></InviteForm>
-    );
+  return <InviteForm invite={invite} event={eventDetails}></InviteForm>;
 }

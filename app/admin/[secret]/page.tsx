@@ -3,17 +3,23 @@ import { getAllInvites } from "@/lib/invite-service";
 import { notFound } from "next/navigation";
 import Dashboard from "./dashboard";
 
-export default async function Admin(props: { params: Promise<{ secret: string }> }) {
-    const params = await props.params;
+export default async function Admin(props: {
+  params: Promise<{ secret: string }>;
+}) {
+  const params = await props.params;
 
-    if (params.secret != (await getAdminSecret())) {
-        return notFound()
-    }
+  if (params.secret != (await getAdminSecret())) {
+    return notFound();
+  }
 
-    let eventDetails = await getEventDetails()
-    let invites = await getAllInvites()
+  let eventDetails = await getEventDetails();
+  let invites = await getAllInvites();
 
-    return (
-        <Dashboard invites={invites} event={eventDetails} adminSecret={params.secret}></Dashboard>
-    )
+  return (
+    <Dashboard
+      invites={invites}
+      event={eventDetails}
+      adminSecret={params.secret}
+    ></Dashboard>
+  );
 }

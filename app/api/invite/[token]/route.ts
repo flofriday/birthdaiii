@@ -2,7 +2,10 @@ import { getInviteByToken, updateInvite } from "@/lib/invite-service";
 import { Invite } from "@prisma/client";
 
 export const dynamic = "force-dynamic"; // defaults to auto
-export async function PATCH(request: Request, props: { params: Promise<{ token: string }> }) {
+export async function PATCH(
+  request: Request,
+  props: { params: Promise<{ token: string }> },
+) {
   const params = await props.params;
   // Verify the user hasa token
   if (getInviteByToken(params.token) == null) {
@@ -20,7 +23,7 @@ export async function PATCH(request: Request, props: { params: Promise<{ token: 
         errorMessage:
           "I know you don't have many friends, but let's keep it positive.",
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
   if (newInvite.plusOne > 4) {
@@ -28,7 +31,7 @@ export async function PATCH(request: Request, props: { params: Promise<{ token: 
       {
         errorMessage: `Come on that's kinda rude to bring ${newInvite.plusOne} strangers to a party.`,
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -36,7 +39,10 @@ export async function PATCH(request: Request, props: { params: Promise<{ token: 
   return Response.json(updatedInvite);
 }
 
-export async function GET(request: Request, props: { params: Promise<{ token: string }> }) {
+export async function GET(
+  request: Request,
+  props: { params: Promise<{ token: string }> },
+) {
   const params = await props.params;
   return Response.json(params);
 }

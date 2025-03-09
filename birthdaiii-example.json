@@ -1,6 +1,7 @@
 {
-    "location": "Some Street 1234/45",
-    "date": "2026-01-01 20:32",
-    "groupChat": "https://example.com",
-    "adminSecret": "coco"
+  "name": "Unhinged Powerpoint Karaoke",
+  "location": "Some Street 1234/45",
+  "date": "2026-01-01 20:32",
+  "groupChat": "https://example.com",
+  "adminSecret": "coco"
 }

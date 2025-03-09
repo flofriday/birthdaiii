@@ -122,7 +122,7 @@ export default function InviteForm({
             variant="outline"
             onClick={() =>
               copyText(
-                `${event.name}\nDate: ${event.date}\nLocation: ${event.location}\nBring some drinks ;)`
+                `${event.name}\nDate: ${event.date}\nLocation: ${event.location}\nBring some drinks ;)`,
               )
             }
           >
