@@ -110,14 +110,11 @@ export default function Dashboard({
       }
 
       setInvites(invites.filter((i) => i.token != invite.token));
-      toast({
-        title: "Deleted Invite",
+      toast("Deleted Invite", {
         description: `Removed invite for ${invite.name} ${invite.fullName}`,
       });
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Something went wrong!",
+      toast("Something went wrong!", {
         description: `${error}`,
       });
     }
@@ -164,13 +161,9 @@ export default function Dashboard({
 
       setInvites([...invites, ...newInvites]);
       setNewInviteText("");
-      toast({
-        title: `Created ${newInvites.length} invites`,
-      });
+      toast(`Created ${newInvites.length} invites`);
       if (errors.length > 0) {
-        toast({
-          variant: "destructive",
-          title: "Something went wrong!",
+        toast("Something went wrong!", {
           description: `There were ${errors.length} errors:\n${errors.join(
             "\n"
           )}`,
