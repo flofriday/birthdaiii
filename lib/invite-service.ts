@@ -34,9 +34,9 @@ export async function getInviteByToken(token: string): Promise<Invite | null> {
 
 export async function createInvite(
   name: string,
-  fullName: string,
+  fullName: string
 ): Promise<Invite> {
-  let token = generateInviteToken(4);
+  let token = generateInviteToken(6);
   return await prisma.invite.create({
     data: {
       name: name,
