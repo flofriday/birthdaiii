@@ -31,11 +31,10 @@ import {
 } from "@/components/ui/dialog";
 import { EventDetails } from "@/lib/config";
 import { Invite } from "@prisma/client";
-import { Span } from "next/dist/trace";
 import { useEffect, useState } from "react";
 import { MoreVertical } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { AcceptState } from "@/lib/accept-state";
 import {
   DropdownMenu,
@@ -82,8 +81,7 @@ export default function Dashboard({
 
   const copyText = (text: string, description?: string) => {
     navigator.clipboard.writeText(text);
-    toast({
-      title: "📋 Copied to Clipboard",
+    toast("📋 Copied to Clipboard", {
       description: description,
     });
   };
@@ -99,7 +97,7 @@ export default function Dashboard({
             // Add any other headers as needed (e.g., authentication headers)
           },
           body: "",
-        },
+        }
       );
 
       if (!response.ok) {
@@ -173,7 +171,9 @@ export default function Dashboard({
         toast({
           variant: "destructive",
           title: "Something went wrong!",
-          description: `There were ${errors.length} errors:\n${errors.join("\n")}`,
+          description: `There were ${errors.length} errors:\n${errors.join(
+            "\n"
+          )}`,
         });
       }
     }
@@ -344,7 +344,7 @@ export default function Dashboard({
                       onClick={() =>
                         copyText(
                           craftInviteMessage(invite),
-                          `Invite message for ${invite.name}`,
+                          `Invite message for ${invite.name}`
                         )
                       }
                     >
@@ -365,7 +365,7 @@ export default function Dashboard({
                             onClick={() =>
                               copyText(
                                 `${window.origin}/invite/${invite.token}`,
-                                `Invite URL for ${invite.name}`,
+                                `Invite URL for ${invite.name}`
                               )
                             }
                           >

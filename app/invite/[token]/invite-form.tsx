@@ -13,8 +13,8 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { AcceptState } from "@/lib/accept-state";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
 import { EventDetails } from "@/lib/config";
+import { toast } from "sonner";
 import InviteDescription from "./invite-description.mdx";
 
 function CustomP({ children }: PropsWithChildren<{}>) {
@@ -36,13 +36,9 @@ export default function InviteForm({
   let [newPlusOne, setNewPlusOne] = useState(initialInvite.plusOne);
   let [loading, setLoading] = useState(false);
 
-  const { toast } = useToast();
-
   const copyText = (text: string) => {
     navigator.clipboard.writeText(text);
-    toast({
-      title: "📋 Copied to Clipboard",
-    });
+    toast("📋 Copied to Clipboard");
   };
 
   const updateInvite = async (newInvite: Invite) => {
@@ -73,16 +69,13 @@ export default function InviteForm({
         newInvite.accepted == AcceptState.Accepted &&
         newInvite.plusOne != invite.plusOne
       ) {
-        toast({
-          title: "✅ Updated Plus One",
-        });
+        toast("✅ Updated Plus One");
       }
     } catch (error) {
       //Handle any errors that occurred during the fetch
       setNewPlusOne(invite.plusOne);
       console.error("Fetch error:", error);
-      toast({
-        title: "Something went wrong!",
+      toast("Something went wrong!", {
         description: `${error}`,
       });
     }
@@ -122,7 +115,7 @@ export default function InviteForm({
             variant="outline"
             onClick={() =>
               copyText(
-                `${event.name}\nDate: ${event.date}\nLocation: ${event.location}\nBring some drinks ;)`,
+                `${event.name}\nDate: ${event.date}\nLocation: ${event.location}\nBring some drinks ;)`
               )
             }
           >
