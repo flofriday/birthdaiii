@@ -165,7 +165,10 @@ export default function InviteForm({
           </h3>
           <div className="pb-2">
             That&apos;s amazing, there is a WhatsApp group again: <br />
-            <a className="text-blue-500 hover:underline" href={event.groupChat}>
+            <a
+              className="text-blue-500 hover:underline break-all"
+              href={event.groupChat}
+            >
               {event.groupChat}
             </a>
           </div>
