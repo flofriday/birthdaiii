@@ -19,7 +19,7 @@ jobs:
           script_stop: true
           script: |
             source ~/.nvm/nvm.sh
-            nvm use 22
+            nvm use 25
             cd birthdaiii
             git pull
             npm install
