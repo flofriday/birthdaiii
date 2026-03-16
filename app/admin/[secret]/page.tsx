@@ -1,5 +1,5 @@
-import { getAdminSecret, getEventDetails } from "@/lib/config";
-import { getAllInvites } from "@/lib/invite-service";
+import { getAdminSecret } from "@/lib/config";
+import { getAllEvents } from "@/lib/invite-service";
 import { notFound } from "next/navigation";
 import Dashboard from "./dashboard";
 
@@ -8,18 +8,11 @@ export default async function Admin(props: {
 }) {
   const params = await props.params;
 
-  if (params.secret != (await getAdminSecret())) {
+  if (params.secret !== (await getAdminSecret())) {
     return notFound();
   }
 
-  let eventDetails = await getEventDetails();
-  let invites = await getAllInvites();
+  const events = await getAllEvents();
 
-  return (
-    <Dashboard
-      invites={invites}
-      event={eventDetails}
-      adminSecret={params.secret}
-    ></Dashboard>
-  );
+  return <Dashboard events={events} adminSecret={params.secret} />;
 }

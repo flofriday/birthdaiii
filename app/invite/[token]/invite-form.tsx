@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { AcceptState } from "@/lib/accept-state";
 import { Input } from "@/components/ui/input";
-import { EventDetails } from "@/lib/config";
+import { Event } from "@prisma/client";
 import { toast } from "sonner";
 import InviteDescription from "./invite-description.mdx";
 
@@ -30,7 +30,7 @@ export default function InviteForm({
   event,
 }: {
   invite: Invite;
-  event: EventDetails;
+  event: Event;
 }) {
   let [invite, setInvite] = useState(initialInvite);
   let [newPlusOne, setNewPlusOne] = useState(initialInvite.plusOne);

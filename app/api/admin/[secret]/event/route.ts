@@ -1,22 +1,15 @@
 import { getAdminSecret } from "@/lib/config";
-import { createInvite, getInvitesByEvent } from "@/lib/invite-service";
+import { getAllEvents, createEvent } from "@/lib/invite-service";
 
 export async function GET(
-  request: Request,
+  _request: Request,
   props: { params: Promise<{ secret: string }> }
 ) {
   const params = await props.params;
   if (params.secret !== (await getAdminSecret())) {
     return Response.json({ errorMessage: "You are not the admin!" }, { status: 403 });
   }
-
-  const { searchParams } = new URL(request.url);
-  const eventId = searchParams.get("eventId");
-  if (!eventId) {
-    return Response.json({ errorMessage: "eventId is required" }, { status: 400 });
-  }
-
-  return Response.json(await getInvitesByEvent(Number(eventId)));
+  return Response.json(await getAllEvents());
 }
 
 export async function POST(
@@ -28,16 +21,20 @@ export async function POST(
     return Response.json({ errorMessage: "You are not the admin!" }, { status: 403 });
   }
 
-  const body: { name: string; fullName: string; eventId: number } =
-    await request.json();
-  if (!body.name || !body.fullName || !body.eventId) {
+  const body = await request.json();
+  if (!body.name || !body.location || !body.date) {
     return Response.json(
-      { errorMessage: "Name, fullName and eventId are required" },
+      { errorMessage: "Name, location and date are required" },
       { status: 400 }
     );
   }
 
   return Response.json(
-    await createInvite(body.name, body.fullName, Number(body.eventId))
+    await createEvent({
+      name: body.name,
+      location: body.location,
+      date: body.date,
+      groupChat: body.groupChat ?? "",
+    })
   );
 }

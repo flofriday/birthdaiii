@@ -1,9 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -12,19 +9,26 @@ datasource db {
   provider = "sqlite"
 }
 
+model Event {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  name      String
+  location  String
+  date      String
+  groupChat String
+  invites   Invite[]
+}
+
 model Invite {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   name      String
-  fullName  String   @unique
+  fullName  String
   token     String   @unique
   accepted  String
   plusOne   Int
-}
+  eventId   Int
+  event     Event    @relation(fields: [eventId], references: [id])
 
-// FIXME: Should be an enum but sqlite adapter doesn't allow it
-// enum AcceptOption {
-//   UNKNOWN
-//   ACCEPTED
-//   DECLIED
-// }
+  @@unique([fullName, eventId])
+}
