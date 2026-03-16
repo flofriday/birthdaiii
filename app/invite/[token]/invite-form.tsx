@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Event } from "@prisma/client";
 import { toast } from "sonner";
 import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export default function InviteForm({
   invite: initialInvite,
@@ -83,6 +84,7 @@ export default function InviteForm({
 
       <div className="pb-4 text-slate-500">
         <Markdown
+          remarkPlugins={[remarkGfm]}
           components={{
             p: ({ children }) => <p className="mb-2">{children}</p>,
             strong: ({ children }) => <strong className="font-semibold text-foreground">{children}</strong>,
