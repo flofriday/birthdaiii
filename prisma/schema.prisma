@@ -12,11 +12,12 @@ datasource db {
 model Event {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  name      String
-  location  String
-  date      String
-  groupChat String
-  invites   Invite[]
+  name        String
+  location    String
+  date        String
+  groupChat   String
+  description String  @default("")
+  invites     Invite[]
 }
 
 model Invite {

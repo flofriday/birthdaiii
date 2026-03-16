@@ -1,6 +1,6 @@
 "use client";
 
-import React, { PropsWithChildren } from "react";
+import React from "react";
 import { Invite } from "@prisma/client";
 import {
   Card,
@@ -15,15 +15,7 @@ import { AcceptState } from "@/lib/accept-state";
 import { Input } from "@/components/ui/input";
 import { Event } from "@prisma/client";
 import { toast } from "sonner";
-import InviteDescription from "./invite-description.mdx";
-
-function CustomP({ children }: PropsWithChildren<{}>) {
-  return <p className="m-2">{children}</p>;
-}
-
-const overrideComponents = {
-  p: CustomP,
-};
+import Markdown from "react-markdown";
 
 export default function InviteForm({
   invite: initialInvite,
@@ -90,7 +82,19 @@ export default function InviteForm({
       </h1>
 
       <div className="pb-4 text-slate-500">
-        <InviteDescription components={overrideComponents}></InviteDescription>
+        <Markdown
+          components={{
+            p: ({ children }) => <p className="mb-2">{children}</p>,
+            strong: ({ children }) => <strong className="font-semibold text-foreground">{children}</strong>,
+            em: ({ children }) => <em className="italic">{children}</em>,
+            del: ({ children }) => <del>{children}</del>,
+            ul: ({ children }) => <ul className="list-disc pl-5 mb-2">{children}</ul>,
+            ol: ({ children }) => <ol className="list-decimal pl-5 mb-2">{children}</ol>,
+            li: ({ children }) => <li className="mb-0.5">{children}</li>,
+          }}
+        >
+          {event.description}
+        </Markdown>
       </div>
 
       <Card className="mb-4">

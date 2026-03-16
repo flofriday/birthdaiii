@@ -78,12 +78,14 @@ export default function Dashboard({
   const [newEventLocation, setNewEventLocation] = useState("");
   const [newEventDate, setNewEventDate] = useState("");
   const [newEventGroupChat, setNewEventGroupChat] = useState("");
+  const [newEventDescription, setNewEventDescription] = useState("");
 
   // Edit event form state
   const [editEventName, setEditEventName] = useState("");
   const [editEventLocation, setEditEventLocation] = useState("");
   const [editEventDate, setEditEventDate] = useState("");
   const [editEventGroupChat, setEditEventGroupChat] = useState("");
+  const [editEventDescription, setEditEventDescription] = useState("");
 
   const selectedEvent = events.find((e) => e.id === selectedEventId) ?? null;
 
@@ -121,6 +123,7 @@ export default function Dashboard({
           location: newEventLocation,
           date: newEventDate,
           groupChat: newEventGroupChat,
+          description: newEventDescription,
         }),
       });
       if (!response.ok) throw new Error((await response.json()).errorMessage);
@@ -131,6 +134,7 @@ export default function Dashboard({
       setNewEventLocation("");
       setNewEventDate("");
       setNewEventGroupChat("");
+      setNewEventDescription("");
       toast(`Created event "${created.name}"`);
     } catch (error) {
       toast("Something went wrong!", { description: `${error}` });
@@ -150,6 +154,7 @@ export default function Dashboard({
             location: editEventLocation,
             date: editEventDate,
             groupChat: editEventGroupChat,
+            description: editEventDescription,
           }),
         }
       );
@@ -283,6 +288,12 @@ export default function Dashboard({
             value={newEventGroupChat}
             onChange={(e) => setNewEventGroupChat(e.target.value)}
           />
+          <Textarea
+            placeholder="Description (markdown supported)"
+            rows={6}
+            value={newEventDescription}
+            onChange={(e) => setNewEventDescription(e.target.value)}
+          />
         </div>
         <DialogFooter>
           <DialogClose asChild>
@@ -362,6 +373,7 @@ export default function Dashboard({
                         setEditEventLocation(selectedEvent.location);
                         setEditEventDate(selectedEvent.date);
                         setEditEventGroupChat(selectedEvent.groupChat);
+                        setEditEventDescription(selectedEvent.description);
                       }
                     }}
                   >
@@ -396,6 +408,12 @@ export default function Dashboard({
                           onChange={(e) =>
                             setEditEventGroupChat(e.target.value)
                           }
+                        />
+                        <Textarea
+                          placeholder="Description (markdown supported)"
+                          rows={6}
+                          value={editEventDescription}
+                          onChange={(e) => setEditEventDescription(e.target.value)}
                         />
                       </div>
                       <DialogFooter>
