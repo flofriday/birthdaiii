@@ -10,7 +10,6 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "file:../birthdaiii.db"
 }
 
 model Invite {

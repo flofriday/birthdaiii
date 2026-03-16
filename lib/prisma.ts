@@ -1,16 +1,25 @@
+import { PrismaClient } from "@prisma/client";
+import { PrismaLibSql } from "@prisma/adapter-libsql";
+import path from "node:path";
+
 declare global {
   var prisma: PrismaClient; // This must be a `var` and not a `let / const`
 }
 
-import { PrismaClient } from "@prisma/client";
+function createPrismaClient() {
+  const adapter = new PrismaLibSql({
+    url: "file:" + path.resolve(process.cwd(), "birthdaiii.db"),
+  });
+  return new PrismaClient({ adapter });
+}
 
 let prisma: PrismaClient;
 
 if (process.env.NODE_ENV === "production") {
-  prisma = new PrismaClient();
+  prisma = createPrismaClient();
 } else {
   if (!global.prisma) {
-    global.prisma = new PrismaClient();
+    global.prisma = createPrismaClient();
   }
   prisma = global.prisma;
 }
